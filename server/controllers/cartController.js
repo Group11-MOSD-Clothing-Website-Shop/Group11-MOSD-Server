@@ -22,3 +22,14 @@ exports.getCart = async (req, res, next) => {
 }
 
 // TODO: update Cart
+exports.updateCart = async (req, res, next) => {
+    try {
+        const cart = await Cart.findOneAndUpdate({ userId: req.user.id }, req.body, {
+            new: true, runValidators: true
+        })
+        if (!cart) return res.status(404).json({ msg: "cannot find user cart" })
+        return res.status(200).json(cart)
+    } catch (error) {
+        return res.status(500).json({ msg: error.message || 'Something went wrong' })
+    }
+}
