@@ -9,6 +9,25 @@ exports.createOrder = async (req, res, next) => {
     }
 }
 
+exports.getUserOrders = async (req, res, next) => {
+    try {
+        const orders = await Order.find({ userId: req.user.id })
+        return res.status(200).json(orders)
+    } catch (error) {
+        return res.status(500).json({ msg: error.message || 'Something went wrong' })
+    }
+}
+
+exports.getAllOrders = async (req, res, next) => {
+    try {
+        const orders = await Order.find({})
+        return res.status(200).json(orders)
+    } catch (error) {
+        return res.status(500).json({ msg: error.message || 'Something went wrong' })
+    }
+}
+
+// TODO: Update orders
 exports.updateOrder = async (req, res, next) => {
     const { id } = req.params
     try {
@@ -21,15 +40,8 @@ exports.updateOrder = async (req, res, next) => {
         return res.status(500).json({ msg: error.message || 'Something went wrong' })
     }
 }
-exports.getUserOrders = async (req, res, next) => {
-    try {
-        const orders = await Order.find({ userId: req.user.id })
-        return res.status(200).json(orders)
-    } catch (error) {
-        return res.status(500).json({ msg: error.message || 'Something went wrong' })
-    }
-}
 
+// TODO: Get monthly income
 exports.getMonthlyIncome = async (req, res, next) => {
     const date = new Date()
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
@@ -52,15 +64,6 @@ exports.getMonthlyIncome = async (req, res, next) => {
         ])
 
         return res.status(200).json(income)
-    } catch (error) {
-        return res.status(500).json({ msg: error.message || 'Something went wrong' })
-    }
-}
-
-exports.getAllOrders = async (req, res, next) => {
-    try {
-        const orders = await Order.find({})
-        return res.status(200).json(orders)
     } catch (error) {
         return res.status(500).json({ msg: error.message || 'Something went wrong' })
     }
