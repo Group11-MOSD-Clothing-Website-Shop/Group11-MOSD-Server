@@ -30,7 +30,7 @@ app.use((err, req, res) => {
     .json({ msg: err.msg || "Something went wrong!" });
 });
 
-app.use('/api/auth', require('./routes/authRoute'));
+app.use("/api/auth", require("./routes/authRoute"));
 
 mongoose
   .connect(process.env.MONGO_URI, {
